@@ -1,0 +1,6 @@
+/** Formats an ISO timestamp as a short local time, e.g. "10:05 AM". */
+export function formatTime(iso: string): string {
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "";
+  return new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(date);
+}
