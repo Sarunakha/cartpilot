@@ -1,0 +1,23 @@
+# ==============================================================================
+# CartPilot Backend — Render Blueprint Specification (Infrastructure-as-Code)
+# Docs: https://render.com/docs/blueprint-spec
+# ==============================================================================
+services:
+  - type: web
+    name: cartpilot-backend
+    runtime: docker
+    plan: free
+    region: oregon
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: "8000"
+      - key: ALLOWED_ORIGINS
+        value: "http://localhost:3000,https://cartpilot.vercel.app"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: CartPilot_API_KEY
+        sync: false

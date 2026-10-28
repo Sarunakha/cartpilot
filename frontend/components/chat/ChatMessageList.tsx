@@ -2,6 +2,7 @@
 
 import { Bot, User } from "lucide-react";
 import { useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
 
 import { cx } from "@/lib/cx";
 import { formatTime } from "@/lib/format";
@@ -22,7 +23,7 @@ function MessageItem({ message }: { message: Message }) {
       <span
         aria-hidden="true"
         className={cx(
-          "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
+          "flex h-8 w-8 shrink-0 items-center justify-center rounded-full shadow-sm",
           isUser ? "bg-indigo-100 text-indigo-700" : "bg-slate-200 text-slate-700",
         )}
       >
@@ -31,16 +32,48 @@ function MessageItem({ message }: { message: Message }) {
       <div className={cx("flex min-w-0 max-w-[85%] flex-col gap-1", isUser ? "items-end" : "items-start")}>
         <div
           className={cx(
-            "rounded-2xl px-4 py-2 text-sm leading-relaxed",
+            "rounded-2xl px-4 py-2 text-sm leading-relaxed shadow-sm",
             isUser
               ? "rounded-br-sm bg-indigo-600 text-white"
               : "rounded-bl-sm border border-slate-200 bg-white text-slate-900",
           )}
         >
           <span className="sr-only">{isUser ? "You said: " : "CartPilot said: "}</span>
-          <p className="whitespace-pre-wrap break-words">{message.content}</p>
+          {isUser ? (
+            <p className="whitespace-pre-wrap break-words">{message.content}</p>
+          ) : (
+            <ReactMarkdown
+              components={{
+                p: ({ children }) => (
+                  <p className="whitespace-pre-wrap break-words mb-2 last:mb-0 leading-relaxed">{children}</p>
+                ),
+                strong: ({ children }) => <strong className="font-semibold text-slate-900">{children}</strong>,
+                em: ({ children }) => <em className="italic text-slate-800">{children}</em>,
+                ul: ({ children }) => <ul className="my-2 list-disc pl-5 space-y-1 text-slate-800">{children}</ul>,
+                ol: ({ children }) => <ol className="my-2 list-decimal pl-5 space-y-1 text-slate-800">{children}</ol>,
+                li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                code: ({ children }) => (
+                  <code className="rounded bg-slate-100 px-1.5 py-0.5 text-xs font-mono text-indigo-700 border border-slate-200">
+                    {children}
+                  </code>
+                ),
+                a: ({ href, children }) => (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-indigo-600 underline hover:text-indigo-800"
+                  >
+                    {children}
+                  </a>
+                ),
+              }}
+            >
+              {message.content}
+            </ReactMarkdown>
+          )}
         </div>
-        <time dateTime={message.timestamp} suppressHydrationWarning className="text-xs text-slate-600">
+        <time dateTime={message.timestamp} suppressHydrationWarning className="text-xs text-slate-400">
           {formatTime(message.timestamp)}
         </time>
       </div>

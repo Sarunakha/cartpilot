@@ -1,0 +1,52 @@
+# Python bytecode & cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Environment files & secrets (CRITICAL: prevent leaking API keys)
+.env
+.env.*
+*.env
+
+# Git version control
+.git/
+.gitignore
+.gitattributes
+
+# Test files & test coverage
+tests/
+test/
+test_*.py
+*_test.py
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# Editor & OS artifacts
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build & distribution artifacts
+dist/
+build/
+*.egg-info/
+
+# Deployment & docs
+.github/
+render.yaml
+Dockerfile*
+.dockerignore
+README.md
+TASKS.md
